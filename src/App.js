@@ -1,25 +1,49 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Fragment } from 'react';
+import axios from 'axios';
+import { withAuth0 } from '@auth0/auth0-react';
+import Login from './components/login'
+import Redirect from './components/redirect'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from "react-router-dom";
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      sellers: [],
+      buyers: []
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+    }
+  }
+  async componentDidMount() {
+    let sellers = await axios.get('http://localhost:3001/getseller')
+    let buyers = await axios.get('http://localhost:3001/getbuyers')
+    
+    await sellers.data.map(element => {
+      return this.state.sellers.push(element.email)
+    })
+    await buyers.data.map(element => {
+      return this.state.buyers.push(element.email)
+    })
+  }
+  render() {
+    return (
+      <>
+        <Router>
+          <Fragment>
+            <Routes>
+              <Route path="/" element={this.props.auth0.isAuthenticated ? <Redirect sellers={this.state.sellers} buyers={this.state.buyers} /> : <Login />} />
+            </Routes>
+          </Fragment>
+        </Router>
+      </>
+    );
+  }
 }
 
-export default App;
+export default withAuth0(App);
