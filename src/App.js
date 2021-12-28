@@ -21,8 +21,8 @@ class App extends React.Component {
     }
   }
   async componentDidMount() {
-    let sellers = await axios.get('http://localhost:3001/getseller')
-    let buyers = await axios.get('http://localhost:3001/getbuyers')
+    let sellers = await axios.get('https://bs-api-agent.herokuapp.com/getseller')
+    let buyers = await axios.get('https://bs-api-agent.herokuapp.com/getbuyers')
     
     await sellers.data.map(element => {
       return this.state.sellers.push(element.email)
