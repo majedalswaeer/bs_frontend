@@ -23,7 +23,7 @@ class BuyerDashboard extends Component {
     }
 
     getfunc = async () => {
-        let info = await axios.get('http://localhost:3001/getseller')
+        let info = await axios.get('https://bs-api-agent.herokuapp.com/getseller')
         //filtering the appointments depending on the (accepted value) which is existed in each appointment
         await info.data.forEach(element => {
             element.appointment.forEach(app => {
@@ -76,7 +76,7 @@ class BuyerDashboard extends Component {
             accepted: false,
             booked: false,
         }
-        await axios.post(`http://localhost:3001/book-app/${email}`, myData)
+        await axios.post(`https://bs-api-agent.herokuapp.com/book-app/${email}`, myData)
 
     }
 

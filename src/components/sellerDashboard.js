@@ -19,7 +19,7 @@ class SellerDashboard extends Component {
 
     componentDidMount = async () => {
         const { user } = this.props.auth0
-        let appointmentsData = await axios.get(`http://localhost:3001/getseller/${user.email}`)
+        let appointmentsData = await axios.get(`https://bs-api-agent.herokuapp.com/getseller/${user.email}`)
 
         await this.setState({
             data: appointmentsData.data
@@ -43,7 +43,7 @@ class SellerDashboard extends Component {
             accepted: true
         }
 
-        await axios.put(`http://localhost:3001/update-app/${user.email}/${index}`, myOb)
+        await axios.put(`https://bs-api-agent.herokuapp.com/update-app/${user.email}/${index}`, myOb)
         this.setState({
             data: this.state.data.filter(item => item._id !== id)
         })
@@ -63,7 +63,7 @@ class SellerDashboard extends Component {
             accepted: false
         }
 
-        await axios.put(`http://localhost:3001/update-app/${user.email}/${index}`, myOb)
+        await axios.put(`https://bs-api-agent.herokuapp.com/update-app/${user.email}/${index}`, myOb)
         this.setState({
             showAlert: true,
             data: this.state.data.filter(item => item._id !== id)
